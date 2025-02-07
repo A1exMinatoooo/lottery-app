@@ -21,6 +21,41 @@ h1 {
 
 .settings {
     margin-bottom: 20px;
+    display: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.settings.show {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+.removePrize {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.removePrize:hover {
+    background-color: #c9302c;
 }
 
 button {
