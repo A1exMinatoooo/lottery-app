@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽奖活动</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>抽奖活动</h1>
+        <div class="settings">
+            <label for="totalPeople">总人数:</label>
+            <input type="number" id="totalPeople" min="1" value="10">
+            <label for="prizes">奖品设置 (格式: 名称-数量, 逗号分隔):</label>
+            <input type="text" id="prizes" value="一等奖-1,二等奖-2,三等奖-3">
+            <button id="setConfig">设置</button>
+        </div>
+        <div class="status">
+            <h2>剩余奖品</h2>
+            <ul id="prizeList"></ul>
+        </div>
+        <button id="drawButton">抽奖</button>
+        <p id="result"></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
