@@ -9,11 +9,38 @@
 <body>
     <div class="container">
         <h1>抽奖活动</h1>
-        <div class="settings">
+        <button id="toggleSettings">显示/隐藏 奖品设置</button>
+        <div class="settings" id="settingsPanel">
             <label for="totalPeople">总人数:</label>
             <input type="number" id="totalPeople" min="1" value="10">
-            <label for="prizes">奖品设置 (格式: 名称-数量, 逗号分隔):</label>
-            <input type="text" id="prizes" value="一等奖-1,二等奖-2,三等奖-3">
+            <h3>奖品设置</h3>
+            <table id="prizeTable">
+                <thead>
+                    <tr>
+                        <th>奖品名称</th>
+                        <th>数量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" value="一等奖"></td>
+                        <td><input type="number" value="1" min="1"></td>
+                        <td><button class="removePrize">删除</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" value="二等奖"></td>
+                        <td><input type="number" value="2" min="1"></td>
+                        <td><button class="removePrize">删除</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" value="三等奖"></td>
+                        <td><input type="number" value="3" min="1"></td>
+                        <td><button class="removePrize">删除</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="addPrize">添加奖品</button>
             <button id="setConfig">设置</button>
         </div>
         <div class="status">
