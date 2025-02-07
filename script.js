@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     const totalPeopleInput = document.getElementById("totalPeople");
-    const prizesInput = document.getElementById("prizes");
     const toggleSettingsButton = document.getElementById("toggleSettings");
     const settingsPanel = document.getElementById("settingsPanel");
     const addPrizeButton = document.getElementById("addPrize");
@@ -29,21 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initializePrizePool() {
         prizePool = [];
-        const prizeEntries = prizesInput.value.split(",");
         let totalPrizes = 0;
 
-        prizeEntries.forEach(entry => {
-            const [name, count] = entry.split("-");
-            const prizeCount = parseInt(count, 10);
-            if (!isNaN(prizeCount) && prizeCount > 0) {
-                for (let i = 0; i < prizeCount; i++) {
-                    prizePool.push(name.trim());
+        const prizeRows = prizeTableBody.querySelectorAll("tr");
+        prizeRows.forEach(row => {
+            const name = row.cells[0].querySelector("input").value.trim();
+            const count = parseInt(row.cells[1].querySelector("input").value, 10);
+            if (name && count > 0) {
+                for (let i = 0; i < count; i++) {
+                    prizePool.push(name);
                 }
-                totalPrizes += prizeCount;
+                totalPrizes += count;
             }
         });
 
-        const noPrizeCount = totalPeople - totalPrizes;
+        const noPrizeCount = totalPeople - prizePool.length;
         for (let i = 0; i < noPrizeCount; i++) {
             prizePool.push("未中奖");
         }
