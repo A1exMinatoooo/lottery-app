@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const prizeTableBody = document.querySelector("#prizeTable tbody");
     const setConfigButton = document.getElementById("setConfig");
     const drawButton = document.getElementById("drawButton");
+    const resetButton = document.getElementById("resetPool");
     const prizeList = document.getElementById("prizeList");
     const resultText = document.getElementById("result");
 
@@ -23,7 +24,19 @@ document.addEventListener("DOMContentLoaded", () => {
             .join("、");
     }
 
-    function initializePrizePool() {
+    function savePrizePool() {
+        localStorage.setItem("prizePool", JSON.stringify(prizePool));
+    }
+
+    function loadPrizePool() {
+        const savedPool = localStorage.getItem("prizePool");
+        if (savedPool) {
+            prizePool = JSON.parse(savedPool);
+            updatePrizeList();
+        }
+    }
+
+    function initializePrizePool(save = true) {
         prizePool = [];
         let totalPrizes = 0;
 
@@ -45,11 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         updatePrizeList();
+        if (save) savePrizePool();
     }
 
     toggleSettingsButton.addEventListener("click", () => {
         settingsPanel.classList.toggle("show");
     });
+
+    resetButton.addEventListener("click", () => {
+        localStorage.removeItem("prizePool");
+        initializePrizePool(false);
+    });
+
+    loadPrizePool();
 
     addPrizeButton.addEventListener("click", () => {
         const newRow = document.createElement("tr");
