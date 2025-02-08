@@ -68,37 +68,37 @@ th {
     background-color: #c9302c;
 }
 
-.settings.show {
-    display: block;
-}
-
-table {
+.status {
+    margin-top: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-th {
-    background-color: #f4f4f4;
+.prize-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 5px;
+    max-width: 100%;
 }
 
-.removePrize {
-    background-color: #d9534f;
-    color: white;
-    border: none;
+#prizeList {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+#prizeList li {
+    display: inline-block;
+    margin: 0 10px;
     padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-.removePrize:hover {
-    background-color: #c9302c;
+    background: #ffeb3b;
+    border-radius: 5px;
 }
 
 button {
@@ -116,7 +116,10 @@ button:hover {
     background-color: #e64a19;
 }
 
-.status {
+#result {
+    font-size: 24px;
+    font-weight: bold;
+    color: #d32f2f;
     margin-top: 20px;
 }
 
