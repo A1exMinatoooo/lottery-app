@@ -81,10 +81,11 @@ th {
 }
 
 .prize-container {
-    overflow-x: auto;
     white-space: nowrap;
     padding: 5px;
     max-width: 100%;
+    font-size: 14px;
+    color: #666;
 }
 
 #prizeList {
