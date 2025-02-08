@@ -13,17 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let prizePool = [];
 
     function updatePrizeList() {
-        prizeList.innerHTML = "";
         const prizeCount = prizePool.reduce((acc, prize) => {
             acc[prize] = (acc[prize] || 0) + 1;
             return acc;
         }, {});
 
-        Object.entries(prizeCount).forEach(([prize, count]) => {
-            const li = document.createElement("li");
-            li.textContent = `${prize}: ${count}个`;
-            prizeList.appendChild(li);
-        });
+        prizeList.textContent = "剩余奖品：" + Object.entries(prizeCount)
+            .map(([prize, count]) => `${prize}（${count}个）`)
+            .join("、");
     }
 
     function initializePrizePool() {
