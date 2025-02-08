@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const randomIndex = Math.floor(Math.random() * prizePool.length);
         const drawnPrize = prizePool.splice(randomIndex, 1)[0];
 
-        resultText.textContent = `恭喜！你抽中了: ${drawnPrize}`;
+        resultText.textContent = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
         updatePrizeList();
     });
 
