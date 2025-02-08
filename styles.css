@@ -46,7 +46,7 @@ h1 {
 
 .floating-button {
     position: fixed;
-    bottom: 80px;
+    top: 20px;
     right: 20px;
     background-color: #007bff;
     color: white;
