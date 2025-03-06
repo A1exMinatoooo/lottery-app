@@ -10,8 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const prizeList = document.getElementById("prizeList");
     const resultText = document.getElementById("result");
 
-    let totalPeople = parseInt(totalPeopleInput.value, 10);
-    let prizePool = [];
+    let totalPeople, prizePool;
 
     function updatePrizeList() {
         const prizeCount = prizePool.reduce((acc, prize) => {
@@ -25,14 +24,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function savePrizePool() {
+        localStorage.setItem("totalPeople", totalPeople);
         localStorage.setItem("prizePool", JSON.stringify(prizePool));
     }
 
     function loadPrizePool() {
+        const savedTotal = localStorage.getItem("totalPeople");
+        if (savedTotal) {
+            totalPeople = parseInt(savedTotal, 10);
+            totalPeopleInput.value = totalPeople;
+        } else {
+            totalPeople = parseInt(totalPeopleInput.value, 10);
+        }
+
         const savedPool = localStorage.getItem("prizePool");
         if (savedPool) {
             prizePool = JSON.parse(savedPool);
             updatePrizeList();
+        } else {
+            prizePool = [];
         }
     }
 
@@ -66,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     resetButton.addEventListener("click", () => {
+        localStorage.removeItem("totalPeople");
         localStorage.removeItem("prizePool");
         initializePrizePool(false);
     });
@@ -110,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         updatePrizeList();
+        savePrizePool();
     });
 
     // 创建浮窗元素
@@ -160,7 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
         resultPopup.style.display = "block";
 
         updatePrizeList();
+        savePrizePool();
     });
 
-    initializePrizePool();
+    if (!localStorage.getItem("prizePool")) {
+        initializePrizePool();
+    }
 });
