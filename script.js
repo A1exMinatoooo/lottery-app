@@ -112,16 +112,53 @@ document.addEventListener("DOMContentLoaded", () => {
         updatePrizeList();
     });
 
+    // 创建浮窗元素
+    const resultPopup = document.createElement("div");
+    resultPopup.className = "result-popup";
+    resultPopup.style.display = "none"; // 初始隐藏
+    
+    // 创建内容容器
+    const content = document.createElement("div");
+    content.className = "popup-content";
+    
+    // 添加关闭按钮容器
+    const closeContainer = document.createElement("div");
+    closeContainer.className = "close-container";
+    
+    // 添加关闭按钮
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "关闭";
+    closeBtn.className = "close-btn";
+    closeBtn.addEventListener("click", () => {
+        resultPopup.style.display = "none";
+    });
+    
+    closeContainer.appendChild(closeBtn);
+    
+    // 组装浮窗结构
+    resultPopup.appendChild(content);
+    resultPopup.appendChild(closeContainer);
+    document.body.appendChild(resultPopup);
+
+    let timeoutId; // 用于存储定时器ID
+
     drawButton.addEventListener("click", () => {
+        // 清除之前的定时器
+        clearTimeout(timeoutId);
+        
         if (prizePool.length === 0) {
-            resultText.textContent = "所有奖品已抽完！";
+            resultPopup.textContent = "所有奖品已抽完！";
+            resultPopup.style.display = "block";
             return;
         }
 
         const randomIndex = Math.floor(Math.random() * prizePool.length);
         const drawnPrize = prizePool.splice(randomIndex, 1)[0];
 
-        resultText.textContent = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
+        const resultText = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
+        content.textContent = resultText;
+        resultPopup.style.display = "block";
+
         updatePrizeList();
     });
 
