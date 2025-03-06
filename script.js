@@ -18,9 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return acc;
         }, {});
 
-        prizeList.textContent = "剩余奖品：" + Object.entries(prizeCount)
-            .map(([prize, count]) => `${prize}（${count}个）`)
-            .join("、");
+        const totalPrizes = totalPeople;
+        const remainingPrizes = prizePool.length;
+        
+        prizeList.textContent = `计数: ${remainingPrizes} / ${totalPrizes}`
     }
 
     function savePrizePool() {
