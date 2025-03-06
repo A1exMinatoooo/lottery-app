@@ -24,9 +24,37 @@ document.addEventListener("DOMContentLoaded", () => {
         prizeList.textContent = `计数: ${remainingPrizes} / ${totalPrizes}`
     }
 
+    function savePrizeSettings() {
+        const prizeSettings = [];
+        const prizeRows = prizeTableBody.querySelectorAll("tr");
+        prizeRows.forEach(row => {
+            const name = row.cells[0].querySelector("input").value.trim();
+            const count = parseInt(row.cells[1].querySelector("input").value, 10);
+            prizeSettings.push({name, count});
+        });
+        localStorage.setItem("prizeSettings", JSON.stringify(prizeSettings));
+    }
+
+    function loadPrizeSettings() {
+        const savedSettings = localStorage.getItem("prizeSettings");
+        if (savedSettings) {
+            const prizeSettings = JSON.parse(savedSettings);
+            prizeSettings.forEach(setting => {
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td><input type="text" value="${setting.name}"></td>
+                    <td><input type="number" value="${setting.count}" min="1"></td>
+                    <td><button class="removePrize">删除</button></td>
+                `;
+                prizeTableBody.appendChild(newRow);
+            });
+        }
+    }
+
     function savePrizePool() {
         localStorage.setItem("totalPeople", totalPeople);
         localStorage.setItem("prizePool", JSON.stringify(prizePool));
+        savePrizeSettings();
     }
 
     function loadPrizePool() {
@@ -79,10 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener("click", () => {
         localStorage.removeItem("totalPeople");
         localStorage.removeItem("prizePool");
+        localStorage.removeItem("prizeSettings");
+        prizeTableBody.innerHTML = "";
         initializePrizePool(false);
     });
 
     loadPrizePool();
+    loadPrizeSettings();
 
     addPrizeButton.addEventListener("click", () => {
         const newRow = document.createElement("tr");
