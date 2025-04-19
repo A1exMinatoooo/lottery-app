@@ -21,7 +21,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const totalPrizes = totalPeople;
         const remainingPrizes = prizePool.length;
         
-        prizeList.textContent = `计数: ${remainingPrizes} / ${totalPrizes}`
+        prizeList.textContent = `计数: ${remainingPrizes} / ${totalPrizes}`;
+        
+        // 在设置面板内显示奖品剩余数量
+        let settingsPrizeList = document.getElementById("settingsPrizeList");
+        if (!settingsPrizeList) {
+            settingsPrizeList = document.createElement("div");
+            settingsPrizeList.id = "settingsPrizeList";
+            settingsPanel.appendChild(settingsPrizeList);
+        }
+        
+        let displayText = `奖品剩余数量:\n`;
+        for (const [prize, count] of Object.entries(prizeCount)) {
+            if (prize !== "未中奖") {
+                displayText += `${prize}: ${count}\n`;
+            }
+        }
+        settingsPrizeList.textContent = displayText;
     }
 
     function savePrizeSettings() {
@@ -103,6 +119,15 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleSettingsButton.addEventListener("click", () => {
         settingsPanel.classList.toggle("show");
     });
+
+    // 为奖品设置界面添加关闭按钮
+    const closeSettingsButton = document.createElement("button");
+    closeSettingsButton.textContent = "关闭";
+    closeSettingsButton.className = "close-settings";
+    closeSettingsButton.addEventListener("click", () => {
+        settingsPanel.classList.remove("show");
+    });
+    settingsPanel.insertBefore(closeSettingsButton, settingsPanel.firstChild);
 
     resetButton.addEventListener("click", () => {
         localStorage.removeItem("totalPeople");
