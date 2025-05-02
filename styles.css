@@ -42,8 +42,10 @@ h1 {
 
 .settings table {
     width: 100%;
-    overflow-x: auto;
     display: block;
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .floating-button {
@@ -79,6 +81,18 @@ th, td {
     padding: 10px;
     text-align: center;
     white-space: nowrap;
+}
+
+td:nth-child(1), th:nth-child(1) {
+    width: 70%;
+}
+
+td:nth-child(2), th:nth-child(2) {
+    width: 20%;
+}
+
+td:nth-child(3), th:nth-child(3) {
+    width: 10%;
 }
 
 th {
@@ -239,4 +253,20 @@ button:hover {
 
 .close-settings:hover {
     color: #000;
+}
+
+input[type="number"], input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+input[type="number"]:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
