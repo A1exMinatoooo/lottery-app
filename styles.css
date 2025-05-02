@@ -216,3 +216,27 @@ button:hover {
     font-weight: bold;
     padding: 15px 30px;
 }
+
+.close-settings {
+    position: sticky;
+    top: 10px;
+    right: 10px;
+    background: #ff5722;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    float: right;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-settings:hover {
+    color: #000;
+}

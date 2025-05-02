@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 为奖品设置界面添加关闭按钮
     const closeSettingsButton = document.createElement("button");
-    closeSettingsButton.textContent = "关闭";
+    closeSettingsButton.innerHTML = "&#10006;"; // 使用HTML实体表示关闭图标
     closeSettingsButton.className = "close-settings";
     closeSettingsButton.addEventListener("click", () => {
         settingsPanel.classList.remove("show");
