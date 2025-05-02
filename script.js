@@ -148,11 +148,34 @@ document.addEventListener("DOMContentLoaded", () => {
             <td><button class="removePrize">删除</button></td>
         `;
         prizeTableBody.appendChild(newRow);
+        updateTotalPeopleFromPrizes();
     });
 
     prizeTableBody.addEventListener("click", (event) => {
         if (event.target.classList.contains("removePrize")) {
             event.target.closest("tr").remove();
+            updateTotalPeopleFromPrizes();
+        }
+    });
+
+    // 监听奖品数量变化，自动更新总人数
+    function updateTotalPeopleFromPrizes() {
+        let totalPrizes = 0;
+        const prizeRows = prizeTableBody.querySelectorAll("tr");
+        prizeRows.forEach(row => {
+            const countInput = row.cells[1].querySelector("input");
+            const count = parseInt(countInput.value, 10);
+            if (!isNaN(count) && count > 0) {
+                totalPrizes += count;
+            }
+        });
+        totalPeopleInput.value = totalPrizes;
+    }
+
+    // 为每个奖品数量输入框添加事件监听
+    prizeTableBody.addEventListener("input", (event) => {
+        if (event.target.type === "number") {
+            updateTotalPeopleFromPrizes();
         }
     });
 
@@ -160,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         totalPeople = parseInt(totalPeopleInput.value, 10);
         const prizeRows = prizeTableBody.querySelectorAll("tr");
         let prizeData = [];
+        let totalPrizeCount = 0;
 
         prizeRows.forEach(row => {
             const name = row.cells[0].querySelector("input").value.trim();
@@ -168,8 +192,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 for (let i = 0; i < count; i++) {
                     prizeData.push(name);
                 }
+                totalPrizeCount += count;
             }
         });
+
+        if (totalPeople < totalPrizeCount) {
+            const confirmUpdate = confirm(`总人数(${totalPeople})小于奖品数量总和(${totalPrizeCount})，是否将总人数更新为奖品数量总和？`);
+            if (confirmUpdate) {
+                totalPeople = totalPrizeCount;
+                totalPeopleInput.value = totalPeople;
+            } else {
+                return; // 返回，不保存设置
+            }
+        }
 
         prizePool = [...prizeData];
         const noPrizeCount = totalPeople - prizePool.length;
