@@ -98,6 +98,9 @@ td:nth-child(3), th:nth-child(3) {
 th {
     background-color: #f8f8f8;
     font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .removePrize {
