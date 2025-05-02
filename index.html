@@ -13,8 +13,10 @@
         <h1>抽奖活动</h1>
         <button id="toggleSettings" class="floating-button">奖品设置</button>
         <div class="settings" id="settingsPanel">
-            <label for="totalPeople">总人数:</label>
-            <input type="number" id="totalPeople" min="1" value="10">
+            <div class="total-people-container">
+                <label for="totalPeople">总人数:</label>
+                <input type="number" id="totalPeople" min="1" value="10">
+            </div>
             <h3>奖品设置</h3>
             <table id="prizeTable">
                 <thead>

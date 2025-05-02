@@ -237,7 +237,7 @@ button:hover {
 .close-settings {
     position: sticky;
     top: 10px;
-    right: 10px;
+    left: 10px;
     background: #ff5722;
     border: none;
     color: white;
@@ -245,7 +245,7 @@ button:hover {
     cursor: pointer;
     padding: 5px;
     line-height: 1;
-    float: right;
+    float: left;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -272,4 +272,22 @@ input[type="number"]:focus, input[type="text"]:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.settings label {
+    flex: 0 0 20%;
+    margin-right: 10px;
+    text-align: right;
+    line-height: 36px;
+}
+
+.settings input[type="number"] {
+    flex: 0 0 80%;
+}
+
+.total-people-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
