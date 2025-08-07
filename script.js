@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const totalPeopleInput = document.getElementById("totalPeople");
+    const lotteryTitleInput = document.getElementById("lotteryTitleInput");
+    const lotteryTitle = document.getElementById("lotteryTitle");
     const toggleSettingsButton = document.getElementById("toggleSettings");
     const settingsPanel = document.getElementById("settingsPanel");
     const addPrizeButton = document.getElementById("addPrize");
@@ -80,6 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
             totalPeopleInput.value = totalPeople;
         } else {
             totalPeople = parseInt(totalPeopleInput.value, 10);
+        }
+
+        const savedTitle = localStorage.getItem("lotteryTitle");
+        if (savedTitle) {
+            lotteryTitle.textContent = savedTitle;
+            lotteryTitleInput.value = savedTitle;
         }
 
         const savedPool = localStorage.getItem("prizePool");
@@ -181,6 +189,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setConfigButton.addEventListener("click", () => {
         totalPeople = parseInt(totalPeopleInput.value, 10);
+        const newTitle = lotteryTitleInput.value.trim();
+        lotteryTitle.textContent = newTitle;
+        localStorage.setItem("lotteryTitle", newTitle);
         const prizeRows = prizeTableBody.querySelectorAll("tr");
         let prizeData = [];
         let totalPrizeCount = 0;

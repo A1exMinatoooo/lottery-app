@@ -10,9 +10,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>抽奖活动</h1>
+        <h1 id="lotteryTitle">抽奖活动</h1>
         <button id="toggleSettings" class="floating-button">奖品设置</button>
         <div class="settings" id="settingsPanel">
+            <div class="title-container">
+                <label for="lotteryTitleInput">抽奖标题:</label>
+                <input type="text" id="lotteryTitleInput" value="抽奖活动">
+            </div>
             <div class="total-people-container">
                 <label for="totalPeople">总人数:</label>
                 <input type="number" id="totalPeople" min="1" value="10">
