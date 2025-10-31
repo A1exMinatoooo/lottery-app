@@ -262,8 +262,12 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(timeoutId);
         
         if (prizePool.length === 0) {
-            resultPopup.textContent = "所有奖品已抽完！";
+            content.textContent = "所有奖品已抽完！";
             resultPopup.style.display = "block";
+            // 3秒后自动关闭弹窗
+            timeoutId = setTimeout(() => {
+                resultPopup.style.display = "none";
+            }, 3000);
             return;
         }
 
