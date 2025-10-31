@@ -305,12 +305,8 @@ input[type="number"]:focus, input[type="text"]:focus {
     z-index: 1000;
 }
 .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #ff5722;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    width: 100px;
+    height: 100px;
     margin-bottom: 10px;
 }
 .loading-text {
