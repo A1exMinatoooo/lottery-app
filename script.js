@@ -267,15 +267,34 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const randomIndex = Math.floor(Math.random() * prizePool.length);
-        const drawnPrize = prizePool.splice(randomIndex, 1)[0];
+        // 显示加载框
+        const loadingOverlay = document.getElementById("loadingOverlay");
+        loadingOverlay.style.display = "flex";
 
-        const resultText = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
-        content.textContent = resultText;
-        resultPopup.style.display = "block";
+        // 禁用抽奖按钮以防止重复点击
+        drawButton.disabled = true;
 
-        updatePrizeList();
-        savePrizePool();
+        // 随机生成0.5秒到1.5秒的延迟时间
+        const delay = Math.random() * 1000 + 500;
+
+        timeoutId = setTimeout(() => {
+            // 隐藏加载框
+            loadingOverlay.style.display = "none";
+
+            // 抽奖逻辑
+            const randomIndex = Math.floor(Math.random() * prizePool.length);
+            const drawnPrize = prizePool.splice(randomIndex, 1)[0];
+
+            const resultText = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
+            content.textContent = resultText;
+            resultPopup.style.display = "block";
+
+            updatePrizeList();
+            savePrizePool();
+
+            // 重新启用抽奖按钮
+            drawButton.disabled = false;
+        }, delay);
     });
 
     if (!localStorage.getItem("prizePool")) {
