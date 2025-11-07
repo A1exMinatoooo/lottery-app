@@ -227,10 +227,21 @@ document.addEventListener("DOMContentLoaded", () => {
         savePrizePool();
     });
 
+    // 创建遮罩层
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
+    overlay.style.display = "none"; // 初始隐藏
+    document.body.appendChild(overlay);
+    
     // 创建浮窗元素
     const resultPopup = document.createElement("div");
     resultPopup.className = "result-popup";
     resultPopup.style.display = "none"; // 初始隐藏
+    
+    // 创建图片元素
+    const prizeImage = document.createElement("img");
+    prizeImage.className = "prize-image";
+    prizeImage.style.display = "none"; // 初始隐藏
     
     // 创建内容容器
     const content = document.createElement("div");
@@ -246,11 +257,13 @@ document.addEventListener("DOMContentLoaded", () => {
     closeBtn.className = "close-btn";
     closeBtn.addEventListener("click", () => {
         resultPopup.style.display = "none";
+        overlay.style.display = "none";
     });
     
     closeContainer.appendChild(closeBtn);
     
     // 组装浮窗结构
+    resultPopup.appendChild(prizeImage);
     resultPopup.appendChild(content);
     resultPopup.appendChild(closeContainer);
     document.body.appendChild(resultPopup);
@@ -263,10 +276,13 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (prizePool.length === 0) {
             content.textContent = "所有奖品已抽完！";
+            prizeImage.style.display = "none";
             resultPopup.style.display = "block";
+            overlay.style.display = "block";
             // 3秒后自动关闭弹窗
             timeoutId = setTimeout(() => {
                 resultPopup.style.display = "none";
+                overlay.style.display = "none";
             }, 3000);
             return;
         }
@@ -291,7 +307,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const resultText = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
             content.textContent = resultText;
+            
+            // 根据中奖状态显示不同的图片
+            if (drawnPrize === "未中奖") {
+                prizeImage.src = "assets/hazure.png";
+                prizeImage.alt = "未中奖";
+            } else {
+                prizeImage.src = "assets/atari.png";
+                prizeImage.alt = "中奖";
+            }
+            prizeImage.style.display = "block";
+            
             resultPopup.style.display = "block";
+            overlay.style.display = "block";
 
             updatePrizeList();
             savePrizePool();
