@@ -11,8 +11,94 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetButton = document.getElementById("resetPool");
     const prizeList = document.getElementById("prizeList");
     const resultText = document.getElementById("result");
+    const secretClickArea = document.getElementById("secretClickArea");
 
     let totalPeople, prizePool;
+    
+    // 隐藏功能相关变量
+    let clickCount = 0;
+    let clickTimer = null;
+    let customizationEnabled = true; // 默认启用自定义
+    
+    // 从localStorage加载自定义状态
+    const savedCustomizationState = localStorage.getItem("customizationEnabled");
+    if (savedCustomizationState !== null) {
+        customizationEnabled = savedCustomizationState === "true";
+        applyCustomizationSettings();
+    }
+    
+    // 创建自定义状态提示弹框
+    const customizationPopup = document.createElement("div");
+    customizationPopup.className = "customization-popup";
+    customizationPopup.style.display = "none";
+    document.body.appendChild(customizationPopup);
+    
+    // 显示自定义状态提示
+    function showCustomizationMessage(message) {
+        customizationPopup.textContent = message;
+        customizationPopup.style.display = "block";
+        
+        setTimeout(() => {
+            customizationPopup.style.display = "none";
+        }, 2000);
+    }
+    
+    // 应用自定义设置
+    function applyCustomizationSettings() {
+        const loadingSpinner = document.querySelector(".loading-spinner");
+        const loadingText = document.querySelector(".loading-text");
+        
+        if (!customizationEnabled) {
+            // 自定义禁用：修改加载动画为praying.gif和文本
+            if (loadingSpinner) {
+                loadingSpinner.src = "assets/praying.gif";
+            }
+            if (loadingText) {
+                loadingText.textContent = "少女祈祷中…";
+            }
+        } else {
+            // 自定义启用：恢复原始加载动画和文本
+            if (loadingSpinner) {
+                loadingSpinner.src = "assets/loading.gif";
+            }
+            if (loadingText) {
+                loadingText.textContent = "好运嘎嘎加载中…";
+            }
+        }
+    }
+    
+    // 隐藏点击区域的事件处理
+    secretClickArea.addEventListener("click", () => {
+        clickCount++;
+        
+        // 清除之前的定时器
+        if (clickTimer) {
+            clearTimeout(clickTimer);
+        }
+        
+        // 设置新的定时器，2秒后重置点击计数
+        clickTimer = setTimeout(() => {
+            clickCount = 0;
+        }, 2000);
+        
+        // 如果连续点击5次
+        if (clickCount === 5) {
+            clickCount = 0; // 重置计数器
+            
+            // 切换自定义状态
+            customizationEnabled = !customizationEnabled;
+            
+            // 保存状态到localStorage
+            localStorage.setItem("customizationEnabled", customizationEnabled.toString());
+            
+            // 应用自定义设置
+            applyCustomizationSettings();
+            
+            // 显示状态提示
+            const message = customizationEnabled ? "Customization enabled." : "Customization disabled.";
+            showCustomizationMessage(message);
+        }
+    });
     
     // 预加载图片
     function preloadImages() {
@@ -328,15 +414,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const resultText = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
             content.textContent = resultText;
             
-            // 根据中奖状态显示不同的图片
-            if (drawnPrize === "未中奖") {
-                prizeImage.src = "assets/hazure.png";
-                prizeImage.alt = "未中奖";
+            // 根据中奖状态显示不同的图片（仅在自定义启用时）
+            if (customizationEnabled) {
+                if (drawnPrize === "未中奖") {
+                    prizeImage.src = "assets/hazure.png";
+                    prizeImage.alt = "未中奖";
+                } else {
+                    prizeImage.src = "assets/atari.png";
+                    prizeImage.alt = "中奖";
+                }
+                prizeImage.style.display = "block";
             } else {
-                prizeImage.src = "assets/atari.png";
-                prizeImage.alt = "中奖";
+                // 自定义禁用时，不显示图片
+                prizeImage.style.display = "none";
             }
-            prizeImage.style.display = "block";
             
             resultPopup.style.display = "block";
             overlay.style.display = "block";
