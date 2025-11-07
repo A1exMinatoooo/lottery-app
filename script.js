@@ -13,6 +13,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultText = document.getElementById("result");
 
     let totalPeople, prizePool;
+    
+    // 预加载图片
+    function preloadImages() {
+        const images = [
+            'assets/atari.png',
+            'assets/hazure.png',
+            'assets/loading.gif'
+        ];
+        
+        images.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }
+    
+    // 页面加载时预加载图片
+    preloadImages();
 
     function updatePrizeList() {
         const prizeCount = prizePool.reduce((acc, prize) => {
