@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 监听奖品数量变化，自动更新总人数
+    // 监听奖品数量变化，判断是否需要更新总人数
     function updateTotalPeopleFromPrizes() {
         let totalPrizes = 0;
         const prizeRows = prizeTableBody.querySelectorAll("tr");
@@ -194,7 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 totalPrizes += count;
             }
         });
-        totalPeopleInput.value = totalPrizes;
+        
+        const currentTotalPeople = parseInt(totalPeopleInput.value, 10);
+        // 只有当奖品数量大于当前总人数时，才更新总人数
+        if (totalPrizes > currentTotalPeople) {
+            totalPeopleInput.value = totalPrizes;
+        }
     }
 
     // 为每个奖品数量输入框添加事件监听
@@ -205,7 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     setConfigButton.addEventListener("click", () => {
-        totalPeople = parseInt(totalPeopleInput.value, 10);
         const newTitle = lotteryTitleInput.value.trim();
         lotteryTitle.textContent = newTitle;
         localStorage.setItem("lotteryTitle", newTitle);
@@ -224,14 +228,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        if (totalPeople < totalPrizeCount) {
-            const confirmUpdate = confirm(`总人数(${totalPeople})小于奖品数量总和(${totalPrizeCount})，是否将总人数更新为奖品数量总和？`);
-            if (confirmUpdate) {
-                totalPeople = totalPrizeCount;
-                totalPeopleInput.value = totalPeople;
-            } else {
-                return; // 返回，不保存设置
-            }
+        // 获取当前总人数
+        totalPeople = parseInt(totalPeopleInput.value, 10);
+        
+        // 如果奖品数量大于总人数，自动更新总人数
+        if (totalPrizeCount > totalPeople) {
+            totalPeople = totalPrizeCount;
+            totalPeopleInput.value = totalPeople;
         }
 
         prizePool = [...prizeData];
