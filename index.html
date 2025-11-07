@@ -13,29 +13,47 @@
         <h1 id="lotteryTitle">抽奖活动</h1>
         <button id="toggleSettings" class="floating-button">奖品设置</button>
         <div class="settings" id="settingsPanel">
-            <div class="title-container">
-                <label for="lotteryTitleInput">抽奖标题:</label>
-                <input type="text" id="lotteryTitleInput" value="抽奖活动">
+            <div class="settings-section">
+                <div class="section-title">基本设置</div>
+                <div class="input-container">
+                    <div class="input-row">
+                        <label for="lotteryTitleInput">抽奖标题</label>
+                        <input type="text" id="lotteryTitleInput" value="抽奖活动" placeholder="请输入抽奖活动标题">
+                    </div>
+                </div>
+                <div class="total-people-container">
+                    <div class="input-row">
+                        <label for="totalPeople">总人数</label>
+                        <input type="number" id="totalPeople" min="1" value="10" placeholder="请输入总人数">
+                    </div>
+                </div>
             </div>
-            <div class="total-people-container">
-                <label for="totalPeople">总人数:</label>
-                <input type="number" id="totalPeople" min="1" value="10">
+            
+            <div class="settings-section">
+                <div class="section-title">奖品设置</div>
+                <table id="prizeTable">
+                    <thead>
+                        <tr>
+                            <th>奖品名称</th>
+                            <th>数量</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="button-group">
+                    <button id="addPrize" class="button-primary">添加奖品</button>
+                </div>
             </div>
-            <h3>奖品设置</h3>
-            <table id="prizeTable">
-                <thead>
-                    <tr>
-                        <th>奖品名称</th>
-                        <th>数量</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <button id="addPrize">添加奖品</button>
-            <button id="setConfig">设置</button>
-            <button id="resetPool">重置奖池</button>
+            
+            <div class="settings-section">
+                <div class="section-title">操作</div>
+                <div class="button-group">
+                    <button id="setConfig" class="button-success">保存设置</button>
+                    <button id="resetPool" class="button-danger">重置奖池</button>
+                </div>
+            </div>
         </div>
         <button id="drawButton">抽奖</button>
         <p id="result"></p>

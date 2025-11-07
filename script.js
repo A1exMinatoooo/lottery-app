@@ -77,8 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
             prizeSettings.forEach(setting => {
                 const newRow = document.createElement("tr");
                 newRow.innerHTML = `
-                    <td><input type="text" value="${setting.name}"></td>
-                    <td><input type="number" value="${setting.count}" min="1"></td>
+                    <td><input type="text" value="${setting.name}" placeholder="奖品名称"></td>
+                    <td><input type="number" value="${setting.count}" min="1" placeholder="数量"></td>
                     <td><button class="removePrize">删除</button></td>
                 `;
                 prizeTableBody.appendChild(newRow);
@@ -168,8 +168,8 @@ document.addEventListener("DOMContentLoaded", () => {
     addPrizeButton.addEventListener("click", () => {
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
-            <td><input type="text" value="新奖品"></td>
-            <td><input type="number" value="1" min="1"></td>
+            <td><input type="text" value="新奖品" placeholder="奖品名称"></td>
+            <td><input type="number" value="1" min="1" placeholder="数量"></td>
             <td><button class="removePrize">删除</button></td>
         `;
         prizeTableBody.appendChild(newRow);
