@@ -411,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const randomIndex = Math.floor(Math.random() * prizePool.length);
             const drawnPrize = prizePool.splice(randomIndex, 1)[0];
 
-            const resultText = drawnPrize === "未中奖" ? "很遗憾，没有中奖" : `恭喜！你抽中了: ${drawnPrize}`;
+            const resultText = drawnPrize === "未中奖" ? "很遗憾，没有中奖。祝观影愉快～" : `恭喜！你抽中了: ${drawnPrize}`;
             content.textContent = resultText;
             
             // 根据中奖状态显示不同的图片（仅在自定义启用时）
