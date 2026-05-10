@@ -15,10 +15,14 @@ export function LotteryApp() {
     prizeSettings,
     prizePool,
     customizationEnabled,
+    organizerLogo,
+    filmLogo,
     saveConfig,
     resetPool,
     draw,
     toggleCustomization,
+    setOrganizerLogo,
+    setFilmLogo,
   } = useLottery();
 
   const [showSettings, setShowSettings] = useState(false);
@@ -68,6 +72,25 @@ export function LotteryApp() {
           onToggle={toggleCustomization}
         />
 
+        {(organizerLogo || filmLogo) && (
+          <div className="flex items-center justify-center gap-6 mb-4">
+            {organizerLogo && (
+              <img
+                src={organizerLogo}
+                alt="组织方Logo"
+                className="max-h-16 max-w-[120px] object-contain"
+              />
+            )}
+            {filmLogo && (
+              <img
+                src={filmLogo}
+                alt="影片Logo"
+                className="max-h-16 max-w-[120px] object-contain"
+              />
+            )}
+          </div>
+        )}
+
         <h1 className="text-3xl font-bold text-rose-800 mb-8 text-center">
           {title}
         </h1>
@@ -76,17 +99,17 @@ export function LotteryApp() {
           <DrawButton onClick={handleDraw} disabled={isDrawing} />
         </div>
 
-        <button
-          onClick={() => setShowSettings(true)}
-          className="fixed top-6 right-6 px-6 py-3 bg-amber-500 hover:bg-amber-600
-            text-white font-semibold rounded-full shadow-lg
-            transition-all duration-200 hover:shadow-xl z-30"
-        >
-          奖品设置
-        </button>
-
         <StatusBar remaining={prizePool.length} total={totalPeople} />
       </div>
+
+      <button
+        onClick={() => setShowSettings(true)}
+        className="fixed top-6 right-6 px-6 py-3 bg-amber-500 hover:bg-amber-600
+          text-white font-semibold rounded-full shadow-lg
+          transition-all duration-200 hover:shadow-xl z-40"
+      >
+        奖品设置
+      </button>
 
       {result && (
         <ResultPopup
@@ -104,9 +127,13 @@ export function LotteryApp() {
         totalPeople={totalPeople}
         prizeSettings={prizeSettings}
         prizePool={prizePool}
+        organizerLogo={organizerLogo}
+        filmLogo={filmLogo}
         onClose={() => setShowSettings(false)}
         onSave={handleSaveConfig}
         onReset={resetPool}
+        onOrganizerLogoChange={setOrganizerLogo}
+        onFilmLogoChange={setFilmLogo}
       />
 
       <LoadingOverlay show={showLoading} customizationEnabled={customizationEnabled} />

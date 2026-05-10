@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { PrizeTable } from './PrizeTable';
 import type { PrizeSetting } from '../types';
 
@@ -8,9 +8,46 @@ interface SettingsPanelProps {
   totalPeople: number;
   prizeSettings: PrizeSetting[];
   prizePool: string[];
+  organizerLogo: string | null;
+  filmLogo: string | null;
   onClose: () => void;
   onSave: (title: string, totalPeople: number, settings: PrizeSetting[]) => void;
   onReset: () => void;
+  onOrganizerLogoChange: (logo: string | null) => void;
+  onFilmLogoChange: (logo: string | null) => void;
+}
+
+const LOGO_MAX_WIDTH = 360;
+const LOGO_MAX_HEIGHT = 240;
+
+function resizeImage(file: File): Promise<string> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width, height } = img;
+
+        if (width > LOGO_MAX_WIDTH) {
+          height = (height * LOGO_MAX_WIDTH) / width;
+          width = LOGO_MAX_WIDTH;
+        }
+        if (height > LOGO_MAX_HEIGHT) {
+          width = (width * LOGO_MAX_HEIGHT) / height;
+          height = LOGO_MAX_HEIGHT;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.src = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 export function SettingsPanel({
@@ -19,13 +56,27 @@ export function SettingsPanel({
   totalPeople,
   prizeSettings,
   prizePool,
+  organizerLogo,
+  filmLogo,
   onClose,
   onSave,
   onReset,
+  onOrganizerLogoChange,
+  onFilmLogoChange,
 }: SettingsPanelProps) {
   const [editTitle, setEditTitle] = useState(title);
   const [editTotalPeople, setEditTotalPeople] = useState(totalPeople);
   const [editSettings, setEditSettings] = useState<PrizeSetting[]>(prizeSettings);
+
+  const handleLogoUpload = useCallback(async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    onChange: (logo: string | null) => void
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const resized = await resizeImage(file);
+    onChange(resized);
+  }, []);
 
   if (!show) return null;
 
@@ -92,6 +143,86 @@ export function SettingsPanel({
                 />
               </div>
             </div>
+          </section>
+
+          <section>
+            <h3 className="text-sm font-semibold text-amber-700 mb-3 flex items-center gap-2">
+              <span className="w-1 h-4 bg-amber-500 rounded-full" />
+              Logo 设置
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm text-gray-600">组织方 Logo</label>
+                <div className="relative">
+                  {organizerLogo ? (
+                    <div className="relative group">
+                      <img
+                        src={organizerLogo}
+                        alt="组织方Logo"
+                        className="w-full h-20 object-contain rounded-lg border border-amber-200 bg-amber-50"
+                      />
+                      <button
+                        onClick={() => onOrganizerLogoChange(null)}
+                        className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500
+                          text-white text-xs flex items-center justify-center
+                          opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center h-20
+                      border-2 border-dashed border-amber-300 rounded-lg cursor-pointer
+                      hover:border-amber-400 hover:bg-amber-50 transition-colors">
+                      <span className="text-2xl text-amber-400">+</span>
+                      <span className="text-xs text-gray-500">上传图片</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleLogoUpload(e, onOrganizerLogoChange)}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-gray-600">影片 Logo</label>
+                <div className="relative">
+                  {filmLogo ? (
+                    <div className="relative group">
+                      <img
+                        src={filmLogo}
+                        alt="影片Logo"
+                        className="w-full h-20 object-contain rounded-lg border border-amber-200 bg-amber-50"
+                      />
+                      <button
+                        onClick={() => onFilmLogoChange(null)}
+                        className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500
+                          text-white text-xs flex items-center justify-center
+                          opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center h-20
+                      border-2 border-dashed border-amber-300 rounded-lg cursor-pointer
+                      hover:border-amber-400 hover:bg-amber-50 transition-colors">
+                      <span className="text-2xl text-amber-400">+</span>
+                      <span className="text-xs text-gray-500">上传图片</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleLogoUpload(e, onFilmLogoChange)}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-400 mt-2">建议尺寸：120×80px，上传后自动缩放</p>
           </section>
 
           <section>

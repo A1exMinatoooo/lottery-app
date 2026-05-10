@@ -12,6 +12,8 @@ export function useLottery() {
   const [prizeSettings, setPrizeSettings] = useLocalStorage<PrizeSetting[]>('prizeSettings', []);
   const [prizePool, setPrizePool] = useLocalStorage<PrizePool>('prizePool', []);
   const [customizationEnabled, setCustomizationEnabled] = useLocalStorage<boolean>('customizationEnabled', true);
+  const [organizerLogo, setOrganizerLogo] = useLocalStorage<string | null>('organizerLogo', null);
+  const [filmLogo, setFilmLogo] = useLocalStorage<string | null>('filmLogo', null);
 
   const initializePrizePool = useCallback((settings?: PrizeSetting[], total?: number) => {
     const currentSettings = settings ?? prizeSettings;
@@ -78,9 +80,13 @@ export function useLottery() {
     prizeSettings,
     prizePool,
     customizationEnabled,
+    organizerLogo,
+    filmLogo,
     saveConfig,
     resetPool,
     draw,
     toggleCustomization,
+    setOrganizerLogo,
+    setFilmLogo,
   };
 }
