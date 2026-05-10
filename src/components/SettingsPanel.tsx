@@ -222,7 +222,7 @@ export function SettingsPanel({
                 </div>
               </div>
             </div>
-            <p className="text-xs text-gray-400 mt-2">建议尺寸：120×80px，上传后自动缩放</p>
+            <p className="text-xs text-gray-400 mt-2">支持 JPG/PNG，上传后自动适配显示</p>
           </section>
 
           <section>
