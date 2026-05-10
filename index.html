@@ -1,73 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="HandheldFriendly" content="true">
-    <meta name="MobileOptimized" content="width">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="width" />
     <title>抽奖活动</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <div id="secretClickArea" class="secret-click-area"></div>
-        <h1 id="lotteryTitle">抽奖活动</h1>
-        <button id="toggleSettings" class="floating-button">奖品设置</button>
-        <div class="settings" id="settingsPanel">
-            <div class="settings-section">
-                <div class="section-title">基本设置</div>
-                <div class="input-container">
-                    <div class="input-row">
-                        <label for="lotteryTitleInput">抽奖标题</label>
-                        <input type="text" id="lotteryTitleInput" value="抽奖活动" placeholder="请输入抽奖活动标题">
-                    </div>
-                </div>
-                <div class="total-people-container">
-                    <div class="input-row">
-                        <label for="totalPeople">总人数</label>
-                        <input type="number" id="totalPeople" min="1" value="10" placeholder="请输入总人数">
-                    </div>
-                </div>
-            </div>
-            
-            <div class="settings-section">
-                <div class="section-title">奖品设置</div>
-                <table id="prizeTable">
-                    <thead>
-                        <tr>
-                            <th>奖品名称</th>
-                            <th>数量</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="button-group">
-                    <button id="addPrize" class="button-primary">添加奖品</button>
-                </div>
-            </div>
-            
-            <div class="settings-section">
-                <div class="section-title">操作</div>
-                <div class="button-group">
-                    <button id="setConfig" class="button-success">保存设置</button>
-                    <button id="resetPool" class="button-danger">重置奖池</button>
-                </div>
-            </div>
-        </div>
-        <button id="drawButton">抽奖</button>
-        <p id="result"></p>
-        <div id="loadingOverlay" class="loading-overlay">
-            <img src="assets/loading.gif" alt="Loading..." class="loading-spinner">
-            <p class="loading-text">好运嘎嘎加载中...</p>
-        </div>
-        <div class="status">
-            <div class="prize-container">
-                <span id="prizeList"></span>
-            </div>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
