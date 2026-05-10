@@ -165,7 +165,7 @@ export function SettingsPanel({
                         onClick={() => onOrganizerLogoChange(null)}
                         className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500
                           text-white text-xs flex items-center justify-center
-                          opacity-0 group-hover:opacity-100 transition-opacity"
+                          sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                       >
                         ✕
                       </button>
@@ -200,7 +200,7 @@ export function SettingsPanel({
                         onClick={() => onFilmLogoChange(null)}
                         className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500
                           text-white text-xs flex items-center justify-center
-                          opacity-0 group-hover:opacity-100 transition-opacity"
+                          sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                       >
                         ✕
                       </button>
