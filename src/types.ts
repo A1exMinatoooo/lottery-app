@@ -1,6 +1,6 @@
 export interface PrizeSetting {
   name: string;
-  count: number;
+  count: number | '';
 }
 
 export interface LotteryConfig {

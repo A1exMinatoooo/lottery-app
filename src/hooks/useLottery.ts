@@ -21,7 +21,8 @@ export function useLottery() {
 
     const pool: PrizePool = [];
     for (const prize of currentSettings) {
-      for (let i = 0; i < prize.count; i++) {
+      const count = prize.count === '' ? 0 : prize.count;
+      for (let i = 0; i < count; i++) {
         pool.push(prize.name);
       }
     }
@@ -38,11 +39,16 @@ export function useLottery() {
   const saveConfig = useCallback((newTitle: string, newTotalPeople: number, newSettings: PrizeSetting[]) => {
     setTitle(newTitle);
 
-    const totalPrizes = newSettings.reduce((sum, p) => sum + p.count, 0);
+    const normalizedSettings = newSettings.map(p => ({
+      ...p,
+      count: p.count === '' || Number(p.count) < 1 ? 1 : Number(p.count)
+    }));
+
+    const totalPrizes = normalizedSettings.reduce((sum, p) => sum + p.count, 0);
     const finalTotal = Math.max(newTotalPeople, totalPrizes);
     setTotalPeople(finalTotal);
-    setPrizeSettings(newSettings);
-    initializePrizePool(newSettings, finalTotal);
+    setPrizeSettings(normalizedSettings);
+    initializePrizePool(normalizedSettings, finalTotal);
   }, [setTitle, setTotalPeople, setPrizeSettings, initializePrizePool]);
 
   const resetPool = useCallback(() => {

@@ -81,6 +81,8 @@ export function SettingsPanel({
   if (!show) return null;
 
   const handleSave = () => {
+    const hasEmpty = editSettings.some(p => p.count === '' || (typeof p.count === 'number' && p.count < 1));
+    if (hasEmpty) return;
     onSave(editTitle, editTotalPeople, editSettings);
     onClose();
   };

@@ -14,15 +14,18 @@ export function PrizeTable({ settings, onChange }: PrizeTableProps) {
     onChange(settings.filter((_, i) => i !== index));
   };
 
-  const updatePrize = (index: number, field: keyof PrizeSetting, value: string | number) => {
+  const updatePrize = (index: number, field: keyof PrizeSetting, value: string) => {
     const newSettings = [...settings];
     if (field === 'name') {
-      newSettings[index] = { ...newSettings[index], name: value as string };
+      newSettings[index] = { ...newSettings[index], name: value };
     } else {
-      newSettings[index] = { ...newSettings[index], count: Math.max(1, Number(value)) };
+      const num = value === '' ? '' : Number(value);
+      newSettings[index] = { ...newSettings[index], count: num as any };
     }
     onChange(newSettings);
   };
+
+  const hasEmptyCount = settings.some(p => p.count === '' || (typeof p.count === 'number' && p.count < 1));
 
   return (
     <div>
@@ -55,9 +58,11 @@ export function PrizeTable({ settings, onChange }: PrizeTableProps) {
                     value={prize.count}
                     onChange={(e) => updatePrize(index, 'count', e.target.value)}
                     min="1"
-                    className="w-full px-3 py-2 rounded-lg border border-amber-200
+                    className={`w-full px-3 py-2 rounded-lg border text-sm text-center
                       focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent
-                      text-sm text-center"
+                      ${prize.count === '' || (typeof prize.count === 'number' && prize.count < 1) 
+                        ? 'border-red-500 bg-red-50' 
+                        : 'border-amber-200'}`}
                   />
                 </td>
                 <td className="py-2 px-4 text-center">
@@ -81,6 +86,11 @@ export function PrizeTable({ settings, onChange }: PrizeTableProps) {
       >
         添加奖品
       </button>
+      {hasEmptyCount && (
+        <p className="mt-2 text-sm text-red-500 text-center">
+          请填写所有奖品数量（至少为 1）
+        </p>
+      )}
     </div>
   );
 }
