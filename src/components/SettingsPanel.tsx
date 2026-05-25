@@ -83,7 +83,10 @@ export function SettingsPanel({
   const handleSave = () => {
     const hasEmptyCount = editSettings.some(p => p.count === '' || (typeof p.count === 'number' && p.count < 1));
     const hasEmptyTotal = editTotalPeople === '' || (typeof editTotalPeople === 'number' && editTotalPeople < 1);
-    if (hasEmptyCount || hasEmptyTotal) return;
+    if (hasEmptyCount || hasEmptyTotal) {
+      alert('请填写所有必填字段（奖品数量和总人数不能为空）');
+      return;
+    }
     onSave(editTitle, editTotalPeople as number, editSettings);
     onClose();
   };
@@ -134,19 +137,24 @@ export function SettingsPanel({
                   placeholder="请输入抽奖活动标题"
                 />
               </div>
-              <div className="flex items-center gap-3">
-                <label className="text-sm text-gray-600 w-20 shrink-0">总人数</label>
-                <input
-                  type="number"
-                  value={editTotalPeople}
-                  onChange={(e) => setEditTotalPeople(e.target.value === '' ? '' : Math.max(1, Number(e.target.value)))}
-                  min="1"
-                  className={`flex-1 px-3 py-2 rounded-lg border text-sm
-                    focus:outline-none focus:ring-2 focus:ring-amber-400
-                    ${editTotalPeople === '' || (typeof editTotalPeople === 'number' && editTotalPeople < 1)
-                      ? 'border-red-500 bg-red-50'
-                      : 'border-amber-200'}`}
-                />
+              <div className="flex items-start gap-3">
+                <label className="text-sm text-gray-600 w-20 shrink-0 pt-2">总人数</label>
+                <div className="flex-1">
+                  <input
+                    type="number"
+                    value={editTotalPeople}
+                    onChange={(e) => setEditTotalPeople(e.target.value === '' ? '' : Math.max(1, Number(e.target.value)))}
+                    min="1"
+                    className={`w-full px-3 py-2 rounded-lg border text-sm
+                      focus:outline-none focus:ring-2 focus:ring-amber-400
+                      ${editTotalPeople === '' || (typeof editTotalPeople === 'number' && editTotalPeople < 1)
+                        ? 'border-red-500 bg-red-50'
+                        : 'border-amber-200'}`}
+                  />
+                  {(editTotalPeople === '' || (typeof editTotalPeople === 'number' && editTotalPeople < 1)) && (
+                    <p className="text-xs text-red-500 mt-1">不能为空</p>
+                  )}
+                </div>
               </div>
             </div>
           </section>

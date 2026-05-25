@@ -25,8 +25,6 @@ export function PrizeTable({ settings, onChange }: PrizeTableProps) {
     onChange(newSettings);
   };
 
-  const hasEmptyCount = settings.some(p => p.count === '' || (typeof p.count === 'number' && p.count < 1));
-
   return (
     <div>
       <div className="max-h-[45vh] overflow-y-auto rounded-xl border border-amber-200">
@@ -39,43 +37,47 @@ export function PrizeTable({ settings, onChange }: PrizeTableProps) {
             </tr>
           </thead>
           <tbody>
-            {settings.map((prize, index) => (
-              <tr key={index} className="border-t border-amber-100 hover:bg-amber-50/50 transition-colors">
-                <td className="py-2 px-4">
-                  <input
-                    type="text"
-                    value={prize.name}
-                    onChange={(e) => updatePrize(index, 'name', e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-amber-200
-                      focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent
-                      text-sm"
-                    placeholder="奖品名称"
-                  />
-                </td>
-                <td className="py-2 px-4">
-                  <input
-                    type="number"
-                    value={prize.count}
-                    onChange={(e) => updatePrize(index, 'count', e.target.value)}
-                    min="1"
-                    className={`w-full px-3 py-2 rounded-lg border text-sm text-center
-                      focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent
-                      ${prize.count === '' || (typeof prize.count === 'number' && prize.count < 1) 
-                        ? 'border-red-500 bg-red-50' 
-                        : 'border-amber-200'}`}
-                  />
-                </td>
-                <td className="py-2 px-4 text-center">
-                  <button
-                    onClick={() => removePrize(index)}
-                    className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white text-sm
-                      rounded-lg transition-colors"
-                  >
-                    删除
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {settings.map((prize, index) => {
+              const isEmpty = prize.count === '' || (typeof prize.count === 'number' && prize.count < 1);
+              return (
+                <tr key={index} className="border-t border-amber-100 hover:bg-amber-50/50 transition-colors">
+                  <td className="py-2 px-4">
+                    <input
+                      type="text"
+                      value={prize.name}
+                      onChange={(e) => updatePrize(index, 'name', e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-amber-200
+                        focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent
+                        text-sm"
+                      placeholder="奖品名称"
+                    />
+                  </td>
+                  <td className="py-2 px-4">
+                    <input
+                      type="number"
+                      value={prize.count}
+                      onChange={(e) => updatePrize(index, 'count', e.target.value)}
+                      min="1"
+                      className={`w-full px-3 py-2 rounded-lg border text-sm text-center
+                        focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent
+                        ${isEmpty ? 'border-red-500 bg-red-50' : 'border-amber-200'}`}
+                    />
+                    {isEmpty && (
+                      <p className="text-xs text-red-500 mt-1">不能为空</p>
+                    )}
+                  </td>
+                  <td className="py-2 px-4 text-center">
+                    <button
+                      onClick={() => removePrize(index)}
+                      className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white text-sm
+                        rounded-lg transition-colors"
+                    >
+                      删除
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -86,11 +88,6 @@ export function PrizeTable({ settings, onChange }: PrizeTableProps) {
       >
         添加奖品
       </button>
-      {hasEmptyCount && (
-        <p className="mt-2 text-sm text-red-500 text-center">
-          请填写所有奖品数量（至少为 1）
-        </p>
-      )}
     </div>
   );
 }
