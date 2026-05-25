@@ -65,7 +65,7 @@ export function SettingsPanel({
   onFilmLogoChange,
 }: SettingsPanelProps) {
   const [editTitle, setEditTitle] = useState(title);
-  const [editTotalPeople, setEditTotalPeople] = useState(totalPeople);
+  const [editTotalPeople, setEditTotalPeople] = useState<number | ''>(totalPeople);
   const [editSettings, setEditSettings] = useState<PrizeSetting[]>(prizeSettings);
 
   const handleLogoUpload = useCallback(async (
@@ -81,9 +81,10 @@ export function SettingsPanel({
   if (!show) return null;
 
   const handleSave = () => {
-    const hasEmpty = editSettings.some(p => p.count === '' || (typeof p.count === 'number' && p.count < 1));
-    if (hasEmpty) return;
-    onSave(editTitle, editTotalPeople, editSettings);
+    const hasEmptyCount = editSettings.some(p => p.count === '' || (typeof p.count === 'number' && p.count < 1));
+    const hasEmptyTotal = editTotalPeople === '' || (typeof editTotalPeople === 'number' && editTotalPeople < 1);
+    if (hasEmptyCount || hasEmptyTotal) return;
+    onSave(editTitle, editTotalPeople as number, editSettings);
     onClose();
   };
 
@@ -138,10 +139,13 @@ export function SettingsPanel({
                 <input
                   type="number"
                   value={editTotalPeople}
-                  onChange={(e) => setEditTotalPeople(Math.max(1, Number(e.target.value)))}
+                  onChange={(e) => setEditTotalPeople(e.target.value === '' ? '' : Math.max(1, Number(e.target.value)))}
                   min="1"
-                  className="flex-1 px-3 py-2 rounded-lg border border-amber-200
-                    focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm"
+                  className={`flex-1 px-3 py-2 rounded-lg border text-sm
+                    focus:outline-none focus:ring-2 focus:ring-amber-400
+                    ${editTotalPeople === '' || (typeof editTotalPeople === 'number' && editTotalPeople < 1)
+                      ? 'border-red-500 bg-red-50'
+                      : 'border-amber-200'}`}
                 />
               </div>
             </div>
