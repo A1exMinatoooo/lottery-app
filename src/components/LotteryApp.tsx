@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useLottery } from '../hooks/useLottery';
 import { DrawButton } from './DrawButton';
 import { LoadingOverlay } from './LoadingOverlay';
@@ -30,6 +30,16 @@ export function LotteryApp() {
   const [showResult, setShowResult] = useState(false);
   const [result, setResult] = useState<{ prize: string; isWin: boolean } | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+
+  useEffect(() => {
+    const gifs = ['/assets/loading.gif', '/assets/praying.gif'];
+    const images = gifs.map((src) => {
+      const img = new Image();
+      img.src = src;
+      return img;
+    });
+    return () => images.forEach((img) => { img.src = ''; });
+  }, []);
 
   const handleDraw = useCallback(() => {
     if (prizePool.length === 0) {
