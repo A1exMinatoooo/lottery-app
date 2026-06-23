@@ -20,7 +20,7 @@ export function PrizeTable({ settings, onChange }: PrizeTableProps) {
       newSettings[index] = { ...newSettings[index], name: value };
     } else {
       const num = value === '' ? '' : Number(value);
-      newSettings[index] = { ...newSettings[index], count: num as any };
+      newSettings[index] = { ...newSettings[index], count: num };
     }
     onChange(newSettings);
   };
