@@ -32,8 +32,13 @@ export function LotteryApp() {
   const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
-    const gifs = ['/assets/loading.gif', '/assets/praying.gif'];
-    const images = gifs.map((src) => {
+    const assets = [
+      '/assets/loading.gif',
+      '/assets/praying.gif',
+      '/assets/atari.png',
+      '/assets/hazure.png',
+    ];
+    const images = assets.map((src) => {
       const img = new Image();
       img.src = src;
       return img;
